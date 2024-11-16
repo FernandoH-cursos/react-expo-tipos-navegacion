@@ -1,39 +1,33 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useFonts } from 'expo-font';
+import { Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+import "./global.css";
+
+//* 'SplashScreen' es un módulo de Expo que permite controlar la pantalla de carga de la aplicación.
+//* 'preventAutoHideAsync' evita que la pantalla de carga se oculte automáticamente.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+const RootLayout = () => {
+  //* Carga todas las fuentes necesarias para la aplicación 
+  const [fontsLoaded, error] = useFonts({
+    "WorkSans-Black": require("../assets/fonts/WorkSans-Black.ttf"),
+    "WorkSans-Light": require("../assets/fonts/WorkSans-Light.ttf"),
+    "WorkSans-Medium": require("../assets/fonts/WorkSans-Medium.ttf"),
   });
 
+  //* Oculta la pantalla de carga cuando las fuentes se han cargado correctamente o si ha ocurrido un error. 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded || error) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded, error]);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!fontsLoaded && !error) return null;
+  
+  return <Slot/>;
+};
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
-}
+export default RootLayout;
