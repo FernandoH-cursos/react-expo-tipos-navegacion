@@ -4,10 +4,16 @@ import { useFonts } from 'expo-font';
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import "./global.css";
 
 //* 'SplashScreen' es un módulo de Expo que permite controlar la pantalla de carga de la aplicación.
 //* 'preventAutoHideAsync' evita que la pantalla de carga se oculte automáticamente.
+
+//* <GestureHandlerRootView> es un componente de 'react-native-gesture-handler' que permite utilizar gestos en la app como
+//* deslizar, tocar, etc.
+
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
@@ -27,7 +33,12 @@ const RootLayout = () => {
 
   if (!fontsLoaded && !error) return null;
   
-  return <Slot/>;
+  // return <Slot/>;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Slot />
+    </GestureHandlerRootView>
+  );
 };
 
 export default RootLayout;

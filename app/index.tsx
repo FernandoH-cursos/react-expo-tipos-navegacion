@@ -5,7 +5,9 @@ import { Link, Redirect } from "expo-router";
 //* <Redirect> permite redirigir a otra pantalla de la aplicación indicando la ruta en la propiedad 'href'. 
 
 const App = () => {
-  return <Redirect href="/(stack)/home" />;
+  // return <Redirect href="/(stack)/home" />;
+  // return <Redirect href="/tabs/home" />;
+  return <Redirect href="/home" />;
 
   /* return (
     <SafeAreaView>
